@@ -21,5 +21,5 @@ queryParams = '?' + urllib.parse.urlencode(
 """
 request = urllib.request.Request(url + getlist + '?ServiceKey=' + servicekey)
 request.get_method = lambda: 'GET'
-response_body = urllib.request.urlopen(request).read()
+response_body = urllib.request.urlopen(request).read().decode('utf8')
 print(response_body)
