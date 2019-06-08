@@ -35,27 +35,27 @@ select_query = "select provinceCd from province;"
 cursor.execute(select_query)
 provinceList = cursor.fetchall()
 
+def origset():
+    table = "runningarea"
+    table_column = "(runningAreaCd, RunningAreaNm, provinceCd)"
+    insert_query = "INSERT INTO " + table + table_column + " values(%s, %s, %s);"
 
-table = "runningarea"
-table_column = "(runningAreaCd, RunningAreaNm, provinceCd)"
-insert_query = "INSERT INTO " + table + table_column + " values(%s, %s, %s);"
-
-for i, provinceCd in enumerate(provinceList):
-    request = urllib.request.Request(
-            url + getlocal + '?' + 'ServiceKey=oXFNR8BgFm4XU8GWU9ipGvj20Y9fBuvytfINkjq6fASRin0xIYGyO3lUUYQiTMb4%2Fjuno0wZg7azEaby0ZnLag%3D%3D'
-            + "&" + "numOfRows=300"
-            + "&" + "pageNo=1"
-            + "&" + "up_orig_cd=" + provinceCd[0])
-    request.get_method = lambda: 'GET'
-    response_body = urllib.request.urlopen(request).read().decode('utf8')
-    dict_type = xmltodict.parse(response_body)
-    json_type = json.dumps(dict_type)
-    dict2_type = json.loads(json_type)
-    items = dict2_type['response']['body']['items']['item']
-    for item in items:
-        data_runningAreaCd = item['origCd']
-        data_runningAreaNm = item['origNm']
-        data_provinceCd = provinceCd[0]
-        cursor.execute(insert_query, (data_runningAreaCd, data_runningAreaNm, data_provinceCd))
-        cnx.commit()
+    for i, provinceCd in enumerate(provinceList):
+        request = urllib.request.Request(
+                url + getlocal + '?' + 'ServiceKey=oXFNR8BgFm4XU8GWU9ipGvj20Y9fBuvytfINkjq6fASRin0xIYGyO3lUUYQiTMb4%2Fjuno0wZg7azEaby0ZnLag%3D%3D'
+                + "&" + "numOfRows=300"
+                + "&" + "pageNo=1"
+                + "&" + "up_orig_cd=" + provinceCd[0])
+        request.get_method = lambda: 'GET'
+        response_body = urllib.request.urlopen(request).read().decode('utf8')
+        dict_type = xmltodict.parse(response_body)
+        json_type = json.dumps(dict_type)
+        dict2_type = json.loads(json_type)
+        items = dict2_type['response']['body']['items']['item']
+        for item in items:
+            data_runningAreaCd = item['origCd']
+            data_runningAreaNm = item['origNm']
+            data_provinceCd = provinceCd[0]
+            cursor.execute(insert_query, (data_runningAreaCd, data_runningAreaNm, data_provinceCd))
+            cnx.commit()
 

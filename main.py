@@ -1,4 +1,9 @@
 import mysql.connector
+import setparty
+import test
+import setorig
+import setprovince
+import setDB
 
 set_DB_using_openAPI = '1'
 search_assemblyman = '2'
@@ -21,7 +26,10 @@ def print_menu():
 
 
 def DB_setting():
-    pass
+    setparty.partyset()
+    setprovince.provinceset()
+    setorig.origset()
+    setDB.assemblymanset()
 
 
 def assemblyman_searching():
