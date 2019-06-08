@@ -19,7 +19,7 @@ getCd = 'getMemberNameInfoList' #이름검색
 """
 
 
-cnx = mysql.connector.connect(user='root', password='flalxlem116',
+cnx = mysql.connector.connect(user='root', password='123123',
                               host='127.0.0.1',
                               database='mydb')
 cursor = cnx.cursor()
