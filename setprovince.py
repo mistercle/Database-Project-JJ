@@ -1,5 +1,6 @@
 import mysql.connector
 import test
+from setdatabase import database_setting
 """
 오픈 API에서 데이터를 받아와서 정당 테이블을 업데이트
 """
@@ -19,12 +20,8 @@ getCd = 'getMemberNameInfoList' #이름검색
 """
 
 
-cnx = mysql.connector.connect(user='root', password='flalxlem116',
-                              host='127.0.0.1',
-                              database='dbtest')
-cursor = cnx.cursor()
-
-def provinceset():
+def provinceset(cnx, cursor):
+    cnx, cursor = database_setting()
     array = [["021001", "서울광역시"], ["021002", "부산광역시"], ["021003", "대구광역시"], ["021004", "인천광역시"], ["021005", "광주광역시"], ["021006", "대전광역시"], ["021007", "울산광역시"], ["021008", "경기도"], ["021009", "강원도"], ["021010", "충청북도"], ["021011", "충청남도"], ["021012", "전라북도"], ["021013", "전라남도"], ["021014", "경상북도"], ["021015", "경상남도"], ["021016", "제주도"], ["021017", "비례대표"]]
     table = "province"
     table_column = "(provinceCd, provinceNm) "
@@ -40,3 +37,6 @@ def provinceset():
     cursor.execute(insert_query, ("021018", "세종특별자치시"))
     cnx.commit()
 
+if __name__ == "__main__":
+    cnx, cursor = database_setting()
+    provinceset(cnx, cursor)

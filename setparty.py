@@ -1,5 +1,6 @@
 import mysql.connector
 import test
+from setdatabase import database_setting
 """
 오픈 API에서 데이터를 받아와서 정당 테이블을 업데이트
 """
@@ -21,12 +22,7 @@ getCd = 'getMemberNameInfoList' #이름검색
 
 
 #"""
-def partyset():
-    cnx = mysql.connector.connect(user='root', password='flalxlem116',
-                                  host='127.0.0.1',
-                                  database='dbtest')
-    cursor = cnx.cursor()
-
+def partyset(cnx, cursor):
     #정당 코드와 이름 입력 부분
     table = "party"
     table_column = "(partyCd, partyNm) "
@@ -68,7 +64,8 @@ def partyset():
     cnx.commit()
 
 
-
-
+if __name__ == "__main__":
+    cnx, cursor = database_setting()
+    partyset(cnx, cursor)
 
 

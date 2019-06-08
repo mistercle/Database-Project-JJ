@@ -154,7 +154,12 @@ def getpartyCd(num, deptCd):
     dict2_type = json.loads(json_type)
     item = dict2_type['response']['body']['item']
     party = item['polyNm']
-    return party
+    try:
+        hobbyCd = item['hbbyCd']
+    except KeyError:
+        hobbyCd = "없음"
+
+    return party, hobbyCd
 
 def gethobbyCd(num, deptCd):
     request = urllib.request.Request(
