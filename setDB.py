@@ -26,10 +26,10 @@ def assemblymanset():
                                   database='dbtest')
     cursor = cnx.cursor()
 
-    table = "Assemblyman"
-    table_column = "(assemblymanCd, empNm, partyNm, reeleGbnNm, origCd) "
+    table = "assemblyman"
+    table_column = "(assemblymanCd, empNm, partyNm, reeleGbnNm, origCd, hobbyNm) "
     insert_tuple = "INSERT into " + table + table_column + "values"
-    query = insert_tuple + "(%s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE assemblymanCd = assemblymanCd;"
+    query = insert_tuple + "(%s, %s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE assemblymanCd = assemblymanCd;"
     items0 = test.getitem(0)
     #items1 = test.getitem(1)
     #items2 = test.getitem(2)
@@ -38,6 +38,9 @@ def assemblymanset():
     #items5 = test.getitem(5)
     items6 = test.getitem(6)
     #items7 = test.getitem(7)
+    #cursor.execute("select * from assemblyman")
+    #output = cursor.fetchall()
+    #print(output)
     for item in items0 :
         data_assemblymanCd = item['num']
         data_empNm = item['empNm']
@@ -50,11 +53,17 @@ def assemblymanset():
         #print(origCd)
         data_origCd = origCd[0][0]
         #print(data_origCd)
-        #data_hobbyNm = test.gethobbyCd(data_assemblymanCd, item['deptCd'])
-        cursor.execute(query, (data_assemblymanCd, data_empNm, data_partyNm, data_reeleGbNm, data_origCd))
+        data_hobbyNm = test.gethobbyCd(data_assemblymanCd, item['deptCd'])
+        print(data_empNm + " " + data_hobbyNm)
+        cursor.execute(query, (data_assemblymanCd, data_empNm, data_partyNm, data_reeleGbNm, data_origCd, data_hobbyNm))
+        #cursor.execute("update assemblyman set hobbyNm = %s where assemblymanCd = %s;", (data_assemblymanCd, data_hobbyNm))
+
         cnx.commit()
+
 
 
     cursor.close()
     cnx.close()
+
+assemblymanset()
 

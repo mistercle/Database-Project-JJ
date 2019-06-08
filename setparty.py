@@ -42,27 +42,27 @@ def partyset():
         cnx.commit()
     #"""
     #정당 내 국회의원 수
-    #더민당 : 123, 자한당 ; 122, 국민의당 : 38, 정의당 : 6, 무소속 : 11
+    #더민당 : 128, 자한당 ; 113, 바른미래당 : 28, 정의당 : 6, 무소속 : 8, 민중당 : 1, 대한애국당 : 1, 민주평화당 : 14
     #정당별 당대표
     #더민당 : 이해찬, 자한당 : 황교안, 바른미래당 : 손학규, 정의당 : 이정미, 무소속 : NULL
     # 정당별 창당일
     # 더민당 : 2014.03.26, 자한당 : 2017.02.13, 대한애국당 : 2017.07.08, 민주평화당 : 2018.02.07, 민중당 : 2017.10.15 , 바른미래당 : 2018.02.13 , 정의당 : 2012.10.21
     # 정당별 당대표 입력부분
-    update_num = "UPDATE party set partyNum = 123, partyLeaderCd = %s, dateOfEstablish = %s where partyCd = 101182; "#더민당
+    update_num = "UPDATE party set partyNum = 128, partyLeaderCd = %s, dateOfEstablish = %s where partyCd = 101182; "#더민당
     cursor.execute(update_num, ("이해찬", "2014.03.26"))
-    update_num = "UPDATE party set partyNum = 122, partyLeaderCd = %s, dateOfEstablish = %s where partyCd = 101186; "#자한당
+    update_num = "UPDATE party set partyNum = 113, partyLeaderCd = %s, dateOfEstablish = %s where partyCd = 101186; "#자한당
     cursor.execute(update_num, ("황교안", "2017.02.13"))
-    update_num = "UPDATE party set partyNum = 38, partyLeaderCd = %s, dateOfEstablish = %s where partyCd = 101192; "#바른미래당
+    update_num = "UPDATE party set partyNum = 28, partyLeaderCd = %s, dateOfEstablish = %s where partyCd = 101192; "#바른미래당
     cursor.execute(update_num, ("손학규", "2018.02.13"))
     update_num = "UPDATE party set partyNum = 6, partyLeaderCd = %s, dateOfEstablish = %s where partyCd = 101180; "#정의당
     cursor.execute(update_num, ("이정미", "2012.10.21"))
-    update_num = "UPDATE party set partyNum = 11, partyLeaderCd = %s, dateOfEstablish = %s where partyCd = 101030;"#무소속
+    update_num = "UPDATE party set partyNum = 8, partyLeaderCd = %s, dateOfEstablish = %s where partyCd = 101030;"#무소속
     cursor.execute(update_num, ("없음", "없음"))
-    update_num = "UPDATE party set partyNum = 0, partyLeaderCd = %s, dateOfEstablish = %s where partyCd = 101191;"#민주평화당
+    update_num = "UPDATE party set partyNum = 14, partyLeaderCd = %s, dateOfEstablish = %s where partyCd = 101191;"#민주평화당
     cursor.execute(update_num, ("정동영", "2018.02.07"))
-    update_num = "UPDATE party set partyNum = 0, partyLeaderCd = %s, dateOfEstablish = %s where partyCd = 101190;"#민중당
+    update_num = "UPDATE party set partyNum = 1, partyLeaderCd = %s, dateOfEstablish = %s where partyCd = 101190;"#민중당
     cursor.execute(update_num, ("이상규", "2017.10.15"))
-    update_num = "UPDATE party set partyNum = 0, partyLeaderCd = %s, dateOfEstablish = %s where partyCd = 101188;"#대한애국당
+    update_num = "UPDATE party set partyNum = 1, partyLeaderCd = %s, dateOfEstablish = %s where partyCd = 101188;"#대한애국당
     cursor.execute(update_num, ("조원진", "2017.07.08"))
 
     cnx.commit()

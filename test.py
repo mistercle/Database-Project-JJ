@@ -169,23 +169,10 @@ def gethobbyCd(num, deptCd):
     json_type = json.dumps(dict_type)
     dict2_type = json.loads(json_type)
     item = dict2_type['response']['body']['item']
-    #print(item)
-    hobbyCd = item['hbbyCd']
-    return hobbyCd
-
-def getCode(empNm):
-    request = urllib.request.Request(
-        url + getCd + '?' + 'ServiceKey=oXFNR8BgFm4XU8GWU9ipGvj20Y9fBuvytfINkjq6fASRin0xIYGyO3lUUYQiTMb4%2Fjuno0wZg7azEaby0ZnLag%3D%3D'
-        + "&" + "numOfRows=300"
-        + "&" + "pageNo=1"
-        + "&" + empNm)
-    request.get_method = lambda: 'GET'
-    response_body = urllib.request.urlopen(request).read().decode('utf8')
-    dict_type = xmltodict.parse(response_body)
-    json_type = json.dumps(dict_type)
-    dict2_type = json.loads(json_type)
-    item = dict2_type['response']['body']['item']
-    hobbyCd = item['hbbCd']
+    try:
+        hobbyCd = item['hbbyCd']
+    except KeyError:
+        hobbyCd = "없음"
     return hobbyCd
 
 #def getorigCd():
