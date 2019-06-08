@@ -169,6 +169,7 @@ def gethobbyCd(num, deptCd):
     json_type = json.dumps(dict_type)
     dict2_type = json.loads(json_type)
     item = dict2_type['response']['body']['item']
+    #print(item)
     hobbyCd = item['hbbyCd']
     return hobbyCd
 def getCode(empNm):

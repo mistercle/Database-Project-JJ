@@ -27,8 +27,8 @@ cursor = cnx.cursor()
 #정당 코드와 이름 입력 부분
 table = "party"
 table_column = "(partyCd, partyNm) "
-insert_tuple = "INSERT IGNORE into " + table + table_column + "values "
-insert_query = insert_tuple + "(%s, %s);"
+insert_tuple = "INSERT into " + table + table_column + "values "
+insert_query = insert_tuple + "(%s, %s) " +"ON DUPLICATE KEY UPDATE `partyCd`= VALUES(`partyCd`);"
 
 items = test.getitem(6)
 
@@ -51,8 +51,13 @@ update_num = "UPDATE party set partyNum = 6 where partyCd = 101180; "
 cursor.execute(update_num)
 update_num = "UPDATE party set partyNum = 11 where partyCd = 101030;"
 cursor.execute(update_num)
-cnx.commit()
+update_num = "UPDATE party set partyNum = 0 where partyNum is NULL;"
+cursor.execute(update_num)
 
 #정당별 당대표 입력부분
+
+cnx.commit()
+
+
 
 

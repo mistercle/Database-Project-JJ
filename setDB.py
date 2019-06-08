@@ -25,9 +25,9 @@ cursor = cnx.cursor()
 
 
 table = "Assemblyman"
-table_column = "(assemblymanCd, empNm, partyCd, reeleGbnNm, origCd, hobbyNm) "
-insert_tuple = "INSERT into " + table + table_column + "values"
-query = insert_tuple + "(%s, %s, %s, %s, %s, %s)"
+table_column = "(assemblymanCd, empNm, partyNm, reeleGbnNm, origCd) "
+insert_tuple = "REPLACE into " + table + table_column + "values"
+query = insert_tuple + "(%s, %s, %s, %s, %s);"
 items0 = test.getitem(0)
 #items1 = test.getitem(1)
 #items2 = test.getitem(2)
@@ -39,11 +39,11 @@ items6 = test.getitem(6)
 for item in items0 :
     data_assemblymanCd = item['num']
     data_empNm = item['empNm']
-    data_partyCd = test.getpartyCd(data_assemblymanCd, item['deptCd'])
+    data_partyNm = test.getpartyCd(data_assemblymanCd, item['deptCd'])
     data_reeleGbNm = item['reeleGbnNm']
     data_origCd = item['origNm']
-    data_hobbyNm = test.gethobbyCd(data_assemblymanCd, item['deptCd'])
-    cursor.execute(query, (data_assemblymanCd, data_empNm, data_partyCd, data_reeleGbNm, data_origCd, data_hobbyNm))
+    #data_hobbyNm = test.gethobbyCd(data_assemblymanCd, item['deptCd'])
+    cursor.execute(query, (data_assemblymanCd, data_empNm, data_partyNm, data_reeleGbNm, data_origCd))
     cnx.commit()
 
 
