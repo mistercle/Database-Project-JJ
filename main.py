@@ -1,4 +1,9 @@
 import mysql.connector
+import setparty
+import test
+import setorig
+import setprovince
+import setDB
 
 set_DB_using_openAPI = '1'
 search_assemblyman = '2'
@@ -24,7 +29,10 @@ def print_menu():
 
 # 1. 오픈 API 를 이용한 DB 세팅
 def DB_setting():
-    pass
+    setparty.partyset()
+    setprovince.provinceset()
+    setorig.origset()
+    setDB.assemblymanset()
 
 
 # 2. 국회의원 이름 검색

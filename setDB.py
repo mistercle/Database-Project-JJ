@@ -23,35 +23,30 @@ cnx = mysql.connector.connect(user='root', password='flalxlem116',
 cursor = cnx.cursor()
 
 
-
-table = "Assemblyman"
-table_column = "(assemblymanCd, empNm, partyNm, reeleGbnNm, origCd) "
-insert_tuple = "REPLACE into " + table + table_column + "values"
-query = insert_tuple + "(%s, %s, %s, %s, %s);"
-items0 = test.getitem(0)
-#items1 = test.getitem(1)
-#items2 = test.getitem(2)
-#items3 = test.getitem(3)
-#items4 = test.getitem(4)
-#items5 = test.getitem(5)
-items6 = test.getitem(6)
-#items7 = test.getitem(7)
-for item in items0 :
-    data_assemblymanCd = item['num']
-    data_empNm = item['empNm']
-    data_partyNm = test.getpartyCd(data_assemblymanCd, item['deptCd'])
-    data_reeleGbNm = item['reeleGbnNm']
-    data_origCd = item['origNm']
-    #data_hobbyNm = test.gethobbyCd(data_assemblymanCd, item['deptCd'])
-    cursor.execute(query, (data_assemblymanCd, data_empNm, data_partyNm, data_reeleGbNm, data_origCd))
-    cnx.commit()
-
-
-
-#query = insert_tuple + "(%s)"
-#cursor.execute(query, 2)
-#cnx.commit()
+def assemblymanset():
+    table = "Assemblyman"
+    table_column = "(assemblymanCd, empNm, partyNm, reeleGbnNm, origCd) "
+    insert_tuple = "REPLACE into " + table + table_column + "values"
+    query = insert_tuple + "(%s, %s, %s, %s, %s);"
+    items0 = test.getitem(0)
+    #items1 = test.getitem(1)
+    #items2 = test.getitem(2)
+    #items3 = test.getitem(3)
+    #items4 = test.getitem(4)
+    #items5 = test.getitem(5)
+    items6 = test.getitem(6)
+    #items7 = test.getitem(7)
+    for item in items0 :
+        data_assemblymanCd = item['num']
+        data_empNm = item['empNm']
+        data_partyNm = test.getpartyCd(data_assemblymanCd, item['deptCd'])
+        data_reeleGbNm = item['reeleGbnNm']
+        data_origCd = item['origNm']
+        #data_hobbyNm = test.gethobbyCd(data_assemblymanCd, item['deptCd'])
+        cursor.execute(query, (data_assemblymanCd, data_empNm, data_partyNm, data_reeleGbNm, data_origCd))
+        cnx.commit()
 
 
-cursor.close()
-cnx.close()
+    cursor.close()
+    cnx.close()
+

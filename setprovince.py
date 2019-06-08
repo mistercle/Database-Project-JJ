@@ -24,5 +24,15 @@ cnx = mysql.connector.connect(user='root', password='flalxlem116',
                               database='mydb')
 cursor = cnx.cursor()
 
-table = "province"
-table_column = "(runningAreaCd, RunningAreaNm, provinceCd)"
+def provinceset():
+    array = [["021001", "서울광역시"], ["021002", "부산광역시"], ["021003", "대구광역시"], ["021004", "인천광역시"], ["021005", "광주광역시"], ["021006", "대전광역시"], ["021007", "울산광역시"], ["021008", "경기도"], ["021009", "강원도"], ["021010", "충청북도"], ["021011", "충청남도"], ["021012", "전라북도"], ["021013", "전라남도"], ["021014", "경상북도"], ["021015", "경상남도"], ["021016", "제주도"]]
+    table = "province"
+    table_column = "(provinceCd, provinceNm) "
+    insert_tuple = "INSERT into " + table + table_column + "values "
+    insert_query = insert_tuple + "(%s, %s);"
+
+    for i in array:
+        data_provinceCd = array[i][0]
+        data_provinceNm = array[i][1]
+        cursor.execute(insert_query, (data_provinceCd, data_provinceNm))
+        cnx.commit()
