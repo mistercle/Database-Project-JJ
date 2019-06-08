@@ -17,13 +17,15 @@ getparty = 'getPolySearch' #정당검색 method_num = 6
 getlocal = 'getLocalSearch' #지역검색 method_num = 7
 """
 
-cnx = mysql.connector.connect(user='root', password='flalxlem116',
-                              host='127.0.0.1',
-                              database='mydb')
-cursor = cnx.cursor()
+
 
 
 def assemblymanset():
+    cnx = mysql.connector.connect(user='root', password='flalxlem116',
+                                  host='127.0.0.1',
+                                  database='dbtest')
+    cursor = cnx.cursor()
+
     table = "Assemblyman"
     table_column = "(assemblymanCd, empNm, partyNm, reeleGbnNm, origCd) "
     insert_tuple = "INSERT into " + table + table_column + "values"
@@ -41,7 +43,13 @@ def assemblymanset():
         data_empNm = item['empNm']
         data_partyNm = test.getpartyCd(data_assemblymanCd, item['deptCd'])
         data_reeleGbNm = item['reeleGbnNm']
-        data_origCd = item['origNm']
+        data_origNm = item['origNm']
+        #print(data_origNm)
+        cursor.execute("select runningAreaCd from runningarea where runningarea.runningAreaNm = '" + data_origNm + "';")
+        origCd = cursor.fetchall()
+        #print(origCd)
+        data_origCd = origCd[0][0]
+        #print(data_origCd)
         #data_hobbyNm = test.gethobbyCd(data_assemblymanCd, item['deptCd'])
         cursor.execute(query, (data_assemblymanCd, data_empNm, data_partyNm, data_reeleGbNm, data_origCd))
         cnx.commit()
@@ -50,3 +58,4 @@ def assemblymanset():
     cursor.close()
     cnx.close()
 
+assemblymanset()

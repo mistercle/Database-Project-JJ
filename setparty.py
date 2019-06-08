@@ -19,12 +19,14 @@ getCd = 'getMemberNameInfoList' #이름검색
 """
 
 
-cnx = mysql.connector.connect(user='root', password='123123',
-                              host='127.0.0.1',
-                              database='mydb')
-cursor = cnx.cursor()
+
 #"""
 def partyset():
+    cnx = mysql.connector.connect(user='root', password='flalxlem116',
+                                  host='127.0.0.1',
+                                  database='dbtest')
+    cursor = cnx.cursor()
+
     #정당 코드와 이름 입력 부분
     table = "party"
     table_column = "(partyCd, partyNm) "
@@ -61,6 +63,8 @@ def partyset():
     cursor.execute(update_num)
 
     cnx.commit()
+
+partyset()
 
 
 
