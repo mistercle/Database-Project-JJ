@@ -29,7 +29,7 @@ def provinceset():
     table = "province"
     table_column = "(provinceCd, provinceNm) "
     insert_tuple = "INSERT into " + table + table_column + "values "
-    insert_query = insert_tuple + "(%s, %s);"
+    insert_query = insert_tuple + "(%s, %s) ON DUPLICATE KEY UPDATE provinceCd = provinceCd;"
 
     for i in array:
         data_provinceCd = array[i][0]

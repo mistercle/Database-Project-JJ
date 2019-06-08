@@ -26,8 +26,8 @@ cursor = cnx.cursor()
 def assemblymanset():
     table = "Assemblyman"
     table_column = "(assemblymanCd, empNm, partyNm, reeleGbnNm, origCd) "
-    insert_tuple = "REPLACE into " + table + table_column + "values"
-    query = insert_tuple + "(%s, %s, %s, %s, %s);"
+    insert_tuple = "INSERT into " + table + table_column + "values"
+    query = insert_tuple + "(%s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE assemblymanCd = assemblymanCd;"
     items0 = test.getitem(0)
     #items1 = test.getitem(1)
     #items2 = test.getitem(2)

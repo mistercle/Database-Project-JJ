@@ -38,7 +38,7 @@ provinceList = cursor.fetchall()
 def origset():
     table = "runningarea"
     table_column = "(runningAreaCd, RunningAreaNm, provinceCd)"
-    insert_query = "INSERT INTO " + table + table_column + " values(%s, %s, %s);"
+    insert_query = "INSERT INTO " + table + table_column + " values(%s, %s, %s) ON DUPLICATE KEY UPDATE runningAreaCd = runningAreaCd;"
 
     for i, provinceCd in enumerate(provinceList):
         request = urllib.request.Request(

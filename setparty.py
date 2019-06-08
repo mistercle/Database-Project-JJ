@@ -29,7 +29,7 @@ def partyset():
     table = "party"
     table_column = "(partyCd, partyNm) "
     insert_tuple = "INSERT into " + table + table_column + "values "
-    insert_query = insert_tuple + "(%s, %s) " +"ON DUPLICATE KEY UPDATE `partyCd`= VALUES(`partyCd`);"
+    insert_query = insert_tuple + "(%s, %s) " +"ON DUPLICATE KEY UPDATE partyCd = partyCd;"
 
     items = test.getitem(6)
 
