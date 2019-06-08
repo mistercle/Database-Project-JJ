@@ -37,6 +37,7 @@ def provinceset(cnx, cursor):
     cursor.execute(insert_query, ("021018", "세종특별자치시"))
     cnx.commit()
 
+
 if __name__ == "__main__":
     cnx, cursor = database_setting()
     provinceset(cnx, cursor)

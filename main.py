@@ -15,17 +15,17 @@ search_province = '6'
 
 
 def print_menu():
-    print("*------------------------------------------------*")
-    print("|         # Database Team 'Project JJ' #         |")
-    print("*------------------------------------------------*")
-    print("| 1. 오픈 API 를 이용한 DB 세팅                  |")
-    print("| 2. 국회의원 이름 검색                          |")
-    print("| 3. 정당 이름 검색                              |")
-    print("| 4. 위원회 검색                                 |")
-    print("| 5. 발의안 검색                                 |")
-    print("| 6. 지역 검색                                   |")
-    print("| else. 종료                                     |")
-    print("*------------------------------------------------*")
+    print("*--------------------------------------------------------------*")
+    print("|                 # Database Team 'Project JJ' #               |")
+    print("*--------------------------------------------------------------*")
+    print("| 1. 오픈 API 를 이용한 DB 세팅                                |")
+    print("| 2. 국회의원 이름 검색                                        |")
+    print("| 3. 정당 이름 검색                                            |")
+    print("| 4. 위원회 검색                                               |")
+    print("| 5. 발의안 검색                                               |")
+    print("| 6. 지역 검색                                                 |")
+    print("| else. 종료                                                   |")
+    print("*--------------------------------------------------------------*")
 
 
 def createView(cnx, cursor):
@@ -76,7 +76,7 @@ def createView(cnx, cursor):
 
 # 1. 오픈 API 를 이용한 DB 세팅
 def DB_setting(cnx, cursor):
-    print("*------------------------------------------------*")
+    print("*--------------------------------------------------------------*")
     setparty.partyset(cnx, cursor)
     print("■■■", end="")
     setprovince.provinceset(cnx, cursor)
@@ -85,7 +85,7 @@ def DB_setting(cnx, cursor):
     print("■■■■■", end="")
     setDB.assemblymanset(cnx, cursor)
     createView(cnx, cursor)
-    print("■■■■■")
+    print("■■■■")
 
 
 # 2. 국회의원 이름 검색
@@ -105,7 +105,7 @@ def assemblyman_searching():
         # TODO 동명이인 처리 필요
 
     for tup in result_assemblyman:
-        # print("*------------------------------------------------*")
+        # print("*--------------------------------------------------------------*")
         print("*국회의원 : " + tup[1])
         view_empNm = tup[1]
         print("*소속정당 : " + tup[2])
@@ -172,11 +172,11 @@ def party_searching():
     cursor.execute(query)
     temp_party = cursor.fetchall()
     searchable_party = []
-    print("*-----------------검색 가능한 당명---------------*")
+    print("*------------------------검색 가능한 당명----------------------*")
     for tup in temp_party:
         print("%26s" % tup)
         searchable_party.append(tup[0])
-    print("*------------------------------------------------*")
+    print("*--------------------------------------------------------------*")
     search_party_name = input("\n검색할 당명 >> ")
     if search_party_name not in searchable_party:
         print("*ERROR : %s 은 없는 정당명입니다." % search_party_name)
@@ -195,7 +195,7 @@ def party_searching():
             "WHERE Party.partyNm = '" + search_party_name + "'"
     cursor.execute(query)
     result = cursor.fetchall()
-    print("-------" + search_party_name + "에 소속한 국회의원----")
+    print("--------------" + search_party_name + "에 소속한 국회의원-----------")
     for i, tup in enumerate(result):
         print("%3d. %s" % (i+1, tup[0]))
 
@@ -207,11 +207,11 @@ def committee_searching():
     cursor.execute(query)
     temp_comittee = cursor.fetchall()
     searchable_comittee = []
-    print("*-------------검색 가능한 위원회 명--------------*")
+    print("*--------------------검색 가능한 위원회 명---------------------*")
     for tup in temp_comittee:
         print("%26s" % tup[0])
         searchable_comittee.append(tup[0])
-    print("*------------------------------------------------*")
+    print("*--------------------------------------------------------------*")
     search_comittee_name = input("\n검색할 위원회 >> ")
     if search_comittee_name not in searchable_comittee:
         print("*ERROR : %s 은 없는 위원회입니다." % search_comittee_name)
@@ -233,10 +233,10 @@ def committee_searching():
             "FROM assemblyman_has_comittee " \
             "WHERE comitteeCd = '" + result_comittee[0] + "')"
     cursor.execute(query)
-    result_memberNm = cursor.fetchall()[0]
-
-    print("\n" + search_comittee_name + " 인원수 : " + str(len(result_memberNm)) + "명, 의원회장 : " + result_chairmanNm)
-    print("-----" + search_comittee_name + "에 소속한 국회의원------")
+    result_memberNm = cursor.fetchall()
+    print("\n*--------------------------------------------------------------*")
+    print("%16s 인원수 : %s명, 의원회장 : %s" % (search_comittee_name, str(len(result_memberNm)), result_chairmanNm))
+    print("*----------------" + search_comittee_name + "에 소속한 국회의원------------------*")
     for memberNm in result_memberNm:
         print(memberNm)
 
@@ -253,11 +253,11 @@ def province_searching():
     cursor.execute(query)
     temp_province = cursor.fetchall()
     searchable_province = []
-    print("*-----------------검색 가능한 지역---------------*")
+    print("*----------------------검색 가능한 지역--------------------*")
     for tup in temp_province:
         print("%26s" % tup[1])
         searchable_province.append(tup[1])
-    print("*------------------------------------------------*")
+    print("*----------------------------------------------------------*")
     search_province_name = input("\n검색할 지역 >> ")
     if search_province_name not in searchable_province:
         print("*ERROR : %s 은 없는 지역입니다." % search_province_name)
@@ -272,7 +272,7 @@ def province_searching():
     cursor.execute(query)
     result_manNm = cursor.fetchall()
 
-    print("*------%7s에 소속한 국회의원 %2d명-----*" % (search_province_name, len(result_manNm)))
+    print("*-----------%7s에 소속한 국회의원 %2d명----------*" % (search_province_name, len(result_manNm)))
     for manNm in result_manNm:
         print("%12s %16s" % (manNm[0], manNm[1]))
     print()
