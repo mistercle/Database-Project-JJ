@@ -58,4 +58,3 @@ def assemblymanset():
     cursor.close()
     cnx.close()
 
-assemblymanset()

@@ -78,4 +78,4 @@ def origset():
     #cursor.execute("INSERT INTO runningarea (runningAreaCd, RunningAreaNm, provinceCd) values( %s, %s, %s) ON DUPLICATE KEY UPDATE runningAreaCd = runningAreaCd;", ("333333", "비례대표", "비례대표"))
     #cnx.commit()
 
-origset()
+

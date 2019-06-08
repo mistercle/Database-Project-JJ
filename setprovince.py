@@ -40,4 +40,3 @@ def provinceset():
     cursor.execute(insert_query, ("021018", "세종특별자치시"))
     cnx.commit()
 
-provinceset()
