@@ -13,6 +13,7 @@ getmethod = 'getLoOrProporMemberCurrStateList'#당선방법별 국회의원 목�
 getlocalmen = 'getLocalMemberCurrStateList'#지역별 국회의원 목록 정보조회 method_num = 5
 getparty = 'getPolySearch' #정당검색 method_num = 6
 getlocal = 'getLocalSearch' #지역검색 method_num = 7
+getCd = 'getMemberNameInfoList' #이름검색
 
 
 servicekey = 'oXFNR8BgFm4XU8GWU9ipGvj20Y9fBuvytfINkjq6fASRin0xIYGyO3lUUYQiTMb4%2Fjuno0wZg7azEaby0ZnLag%3D%3D'
@@ -41,8 +42,8 @@ def getitem(method_num):
         dict_type = xmltodict.parse(response_body)
         json_type = json.dumps(dict_type)
         dict2_type = json.loads(json_type)
-        items = dict2_type['response']['body']['items']['item']
-        return items
+        items0 = dict2_type['response']['body']['items']['item']
+        return items0
 
     elif method_num == 1 : #detail
         request = urllib.request.Request(
@@ -54,8 +55,8 @@ def getitem(method_num):
         dict_type = xmltodict.parse(response_body)
         json_type = json.dumps(dict_type)
         dict2_type = json.loads(json_type)
-        items = dict2_type['response']['body']['items']['item']
-        return items
+        items1 = dict2_type['response']['body']['items']['item']
+        return items1
 
     elif method_num == 2 : #getjungdang
         request = urllib.request.Request(
@@ -67,8 +68,8 @@ def getitem(method_num):
         dict_type = xmltodict.parse(response_body)
         json_type = json.dumps(dict_type)
         dict2_type = json.loads(json_type)
-        items = dict2_type['response']['body']['items']['item']
-        return items
+        items2 = dict2_type['response']['body']['items']['item']
+        return items2
 
     elif method_num == 3 : #getcomm
         request = urllib.request.Request(
@@ -80,8 +81,8 @@ def getitem(method_num):
         dict_type = xmltodict.parse(response_body)
         json_type = json.dumps(dict_type)
         dict2_type = json.loads(json_type)
-        items = dict2_type['response']['body']['items']['item']
-        return items
+        items3 = dict2_type['response']['body']['items']['item']
+        return items3
 
     elif method_num == 4 : #getmethod
         request = urllib.request.Request(
@@ -93,8 +94,8 @@ def getitem(method_num):
         dict_type = xmltodict.parse(response_body)
         json_type = json.dumps(dict_type)
         dict2_type = json.loads(json_type)
-        items = dict2_type['response']['body']['items']['item']
-        return items
+        items4 = dict2_type['response']['body']['items']['item']
+        return items4
 
     elif method_num == 5 : #getlocalmen
         request = urllib.request.Request(
@@ -106,8 +107,8 @@ def getitem(method_num):
         dict_type = xmltodict.parse(response_body)
         json_type = json.dumps(dict_type)
         dict2_type = json.loads(json_type)
-        items = dict2_type['response']['body']['items']['item']
-        return items
+        items5 = dict2_type['response']['body']['items']['item']
+        return items5
 
     elif method_num == 6 : #getparty
         request = urllib.request.Request(
@@ -119,8 +120,8 @@ def getitem(method_num):
         dict_type = xmltodict.parse(response_body)
         json_type = json.dumps(dict_type)
         dict2_type = json.loads(json_type)
-        items = dict2_type['response']['body']['items']['item']
-        return items
+        items6 = dict2_type['response']['body']['items']['item']
+        return items6
 
     elif method_num == 7:  # getlocal
         request = urllib.request.Request(
@@ -132,9 +133,59 @@ def getitem(method_num):
         dict_type = xmltodict.parse(response_body)
         json_type = json.dumps(dict_type)
         dict2_type = json.loads(json_type)
-        items = dict2_type['response']['body']['items']['item']
-        return items
+        items7 = dict2_type['response']['body']['items']['item']
+        return items7
 
     else :
         print("Method_num is uncorrect!!")
         exit(1)
+#정당과 취미 검색
+def getpartyCd(num, deptCd):
+    request = urllib.request.Request(
+        url + getdetail + '?' + 'ServiceKey=oXFNR8BgFm4XU8GWU9ipGvj20Y9fBuvytfINkjq6fASRin0xIYGyO3lUUYQiTMb4%2Fjuno0wZg7azEaby0ZnLag%3D%3D'
+        + "&" + "numOfRows=300"
+        + "&" + "pageNo=1"
+        + "&" + "dept_cd=" + deptCd
+        + "&" + "num=" + num)
+    request.get_method = lambda: 'GET'
+    response_body = urllib.request.urlopen(request).read().decode('utf8')
+    dict_type = xmltodict.parse(response_body)
+    json_type = json.dumps(dict_type)
+    dict2_type = json.loads(json_type)
+    item = dict2_type['response']['body']['item']
+    party = item['polyNm']
+    return party
+
+def gethobbyCd(num, deptCd):
+    request = urllib.request.Request(
+        url + getdetail + '?' + 'ServiceKey=oXFNR8BgFm4XU8GWU9ipGvj20Y9fBuvytfINkjq6fASRin0xIYGyO3lUUYQiTMb4%2Fjuno0wZg7azEaby0ZnLag%3D%3D'
+        + "&" + "numOfRows=300"
+        + "&" + "pageNo=1"
+        + "&" + "dept_cd=" + deptCd
+        + "&" + "num=" + num)
+    request.get_method = lambda: 'GET'
+    response_body = urllib.request.urlopen(request).read().decode('utf8')
+    dict_type = xmltodict.parse(response_body)
+    json_type = json.dumps(dict_type)
+    dict2_type = json.loads(json_type)
+    item = dict2_type['response']['body']['item']
+    hobbyCd = item['hbbyCd']
+    return hobbyCd
+def getCode(empNm):
+    request = urllib.request.Request(
+        url + getCd + '?' + 'ServiceKey=oXFNR8BgFm4XU8GWU9ipGvj20Y9fBuvytfINkjq6fASRin0xIYGyO3lUUYQiTMb4%2Fjuno0wZg7azEaby0ZnLag%3D%3D'
+        + "&" + "numOfRows=300"
+        + "&" + "pageNo=1"
+        + "&" + empNm)
+    request.get_method = lambda: 'GET'
+    response_body = urllib.request.urlopen(request).read().decode('utf8')
+    dict_type = xmltodict.parse(response_body)
+    json_type = json.dumps(dict_type)
+    dict2_type = json.loads(json_type)
+    item = dict2_type['response']['body']['item']
+    hobbyCd = item['hbbCd']
+    return hobbyCd
+
+#def getorigCd():
+
+#def getre
