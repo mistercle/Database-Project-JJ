@@ -159,5 +159,5 @@ def assemblyman_has_comitteeset(cnx, cursor):
 
 if __name__ == "__main__":
     cnx, cursor = database_setting()
-    # comitteeset(cnx, cursor)
+    comitteeset(cnx, cursor)
     assemblyman_has_comitteeset(cnx, cursor)

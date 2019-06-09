@@ -25,7 +25,8 @@ def initrep(cnx, cursor):
     cursor.execute(insert_query)
     cursor.execute("select reputation from assemblyman")
     print(cursor.fetchall())
-    cnx.commit
+    cnx.commit()
 
-cnx, cursor = database_setting()
-initrep(cnx, cursor)
+#cnx, cursor = database_setting()
+#initrep(cnx, cursor)
+
