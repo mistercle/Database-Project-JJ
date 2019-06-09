@@ -161,25 +161,6 @@ def getpartyCd(num, deptCd):
 
     return party, hobbyCd
 
-def gethobbyCd(num, deptCd):
-    request = urllib.request.Request(
-        url + getdetail + '?' + 'ServiceKey=oXFNR8BgFm4XU8GWU9ipGvj20Y9fBuvytfINkjq6fASRin0xIYGyO3lUUYQiTMb4%2Fjuno0wZg7azEaby0ZnLag%3D%3D'
-        + "&" + "numOfRows=300"
-        + "&" + "pageNo=1"
-        + "&" + "dept_cd=" + deptCd
-        + "&" + "num=" + num)
-    request.get_method = lambda: 'GET'
-    response_body = urllib.request.urlopen(request).read().decode('utf8')
-    dict_type = xmltodict.parse(response_body)
-    json_type = json.dumps(dict_type)
-    dict2_type = json.loads(json_type)
-    item = dict2_type['response']['body']['item']
-    try:
-        hobbyCd = item['hbbyCd']
-    except KeyError:
-        hobbyCd = "없음"
-    return hobbyCd
-
 def getCd(name, cnx, cursor):
     table = "assemblyman"
     select_query = "select assemblymanCd from assemblyman where assemblyman.empNm = '" + name + "';"
@@ -187,4 +168,3 @@ def getCd(name, cnx, cursor):
     Cds = cursor.fetchall()
     return Cds[0][0]
 
-#def getre
