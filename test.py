@@ -180,6 +180,5 @@ def gethobbyCd(num, deptCd):
         hobbyCd = "없음"
     return hobbyCd
 
-#def getorigCd():
 
 #def getre
