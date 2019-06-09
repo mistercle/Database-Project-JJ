@@ -180,5 +180,11 @@ def gethobbyCd(num, deptCd):
         hobbyCd = "없음"
     return hobbyCd
 
+def getCd(name, cnx, cursor):
+    table = "assemblyman"
+    select_query = "select assemblymanCd from assemblyman where assemblyman.empNm = '" + name + "';"
+    cursor.execute(select_query)
+    Cds = cursor.fetchall()
+    return Cds[0][0]
 
 #def getre
