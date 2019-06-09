@@ -298,7 +298,6 @@ def province_searching():
         print("%12s %16s" % (manNm[0], manNm[1]))
     print()
 
-
 if __name__ == '__main__':
     cnx, cursor = database_setting()
     while True:
