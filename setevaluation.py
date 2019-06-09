@@ -27,6 +27,9 @@ def initrep(cnx, cursor):
     print(cursor.fetchall())
     cnx.commit()
 
-#cnx, cursor = database_setting()
-#initrep(cnx, cursor)
+def setreptrigger(cnx, cursor):
+
+    trigger_query = "CREATE TRIGGER changerep AFTER INSERT ON evaluation FOR EACH ROW BEGIN UPDATE assemblyman set reputation = reputation + new.favor where assemblyman.assemblymanCd = new.assemblymanCd; END;"
+    cursor.execute(trigger_query)
+    cnx.commit()
 
