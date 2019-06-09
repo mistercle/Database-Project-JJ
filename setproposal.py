@@ -1,3 +1,4 @@
+import test
 from setdatabase import database_setting
 
 
@@ -44,18 +45,13 @@ def assemblyman_has_proposal(cnx, cursor):
 
     for i, value in enumerate(array):
         data_proposalCd = array[i][0]
-        data_assemblymanCd = getCd(array[i][1], cnx, cursor)
+        data_assemblymanCd = test.getCd(array[i][1], cnx, cursor)
         cursor.execute(insert_query, (data_assemblymanCd, data_proposalCd))
         cnx.commit()
 
     cnx.commit()
 
-def getCd(name, cnx, cursor):
-    table = "assemblyman"
-    select_query = "select assemblymanCd from assemblyman where assemblyman.empNm = '" + name + "';"
-    cursor.execute(select_query)
-    Cds = cursor.fetchall()
-    return Cds[0][0]
+
 
 if __name__ == "__main__":
     cnx, cursor = database_setting()

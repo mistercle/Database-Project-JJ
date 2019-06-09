@@ -72,10 +72,10 @@ def createView(cnx, cursor):
                 view_comitteeNm = temp_comitteeNm
                 print()
         # print(view_empNm, view_partyNm, view_reeleGbnNm, view_origNm, view_hobbyNm, view_comitteeNm)
-        view_query = "CREATE VIEW assemblyman_view AS" \
-                     "SELECT assemblyman.empNm, assemblyman.partyNm, assemblyman.reeleGbnNm, assemblyman.origNm, assemblyman.hobbyNm, comittee.comitteeNm" \
-                     "FROM assemblyman, comittee, assemblyman_has_comittee" \
-                     "WHERE assemblyman.assemblymanCd = assemblyman_has_comittee.assemblymanCd AND assemblyman_has_comittee.comitteeCd = comittee.comitteeCd;"
+        view_query = "CREATE OR REPLACE VIEW assemblyman_view AS" \
+                     "SELECT assemblyman.empNm, assemblyman.partyNm, assemblyman.reeleGbnNm, runningarea.RunningAreaNm AS origNm, assemblyman.hobbyNm, comittee.comitteeNm" \
+                     "FROM assemblyman, comittee, assemblyman_has_comittee, runningarea" \
+                     "WHERE assemblyman.assemblymanCd = assemblyman_has_comittee.assemblymanCd AND assemblyman_has_comittee.comitteeCd = comittee.comitteeCd AND assemblyman.origCd = runningarea.runningAreaCd;"
         cursor.execute(view_query)
         cnx.commit()
         # TODO assemblyman_view에 위 데이터들로 행 추가
