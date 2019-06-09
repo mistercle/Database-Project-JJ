@@ -36,8 +36,6 @@ def evaluation(cnx, cursor):
 def initrep(cnx, cursor):
     insert_query = "UPDATE assemblyman set reputation = 0 where reputation is NULL"
     cursor.execute(insert_query)
-    cursor.execute("select reputation from assemblyman")
-    print(cursor.fetchall())
     cnx.commit()
 
 def setreptrigger(cnx, cursor):
