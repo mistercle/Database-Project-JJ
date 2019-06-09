@@ -121,7 +121,7 @@ def assemblyman_searching():
         print("*위원회   : ", end="")
         query = "SELECT comitteeCd " \
                 "FROM assemblyman natural join assemblyman_has_comittee " \
-                "WHERE assemblyman.empNm = '" + tup[1] + "'"
+                "WHERE assemblyman.assemblymanCd = '" + tup[0] + "'"
         cursor.execute(query)
         result_comitteeCd = cursor.fetchall()
         view_comitteeNm = ""
@@ -135,7 +135,11 @@ def assemblyman_searching():
                 temp_comitteeNm = ""
                 for comitteeNm in result_comitteeNm:
                     view_comitteeNm += comitteeNm + ", "
-            print(view_comitteeNm)
+            if len(result_comitteeCd) == 0:
+                print("X")
+            else:
+                print(view_comitteeNm)
+        print()
 
 
 # 3. 정당 이름 검색
@@ -215,8 +219,53 @@ def committee_searching():
 
 # 5. 발의안 검색
 def proposal_searching():
-    createView(cnx, cursor)
-    pass
+    query = "SELECT proposalNm " \
+            "FROM proposal"
+    cursor.execute(query)
+    temp_comittee = cursor.fetchall()
+    searchable_proposal = []
+    print("*--------------------검색 가능한 발의안 명---------------------*")
+    for i, tup in enumerate(temp_comittee):
+        print("%2d. %s" % (i+1, tup[0]))
+        searchable_proposal.append(tup[0])
+    print("*--------------------------------------------------------------*")
+    search_proposal_name = input("\n검색할 발의안 키워드 >> ")
+    query = "SELECT proposalCd, proposalNm, proposerCd " \
+            "FROM proposal where proposalNm like '%" + search_proposal_name + "%'"
+    cursor.execute(query)
+    search_result = cursor.fetchall()
+    if len(search_result) == 0:
+        print("*ERROR : %s 은 없는 위원회입니다." % search_proposal_name)
+        return
+    while True:
+        print("*-------------------- 검색 결과 %d개 ---------------------*" % len(search_result))
+        for i, tup in enumerate(search_result):
+            print("%2d. %s" % (i+1, tup[1]))
+        print("*--------------------------------------------------------------*")
+        search_proposal_num = input("\n검색할 발의안 번호(숫자만 입력) >> ")
+        if int(search_proposal_num) <= len(search_result):
+            break
+        else:
+            print("*ERROR : %s 는 잘못된 번호입니다." % search_proposal_num)
+    search_one = search_result[int(search_proposal_num)-1]
+    query = "SELECT assemblyman.empNm " \
+            "FROM assemblyman " \
+            "WHERE assemblyman.assemblymanCd = '" + search_one[2] + "'"
+    cursor.execute(query)
+    result_chairmanNm = cursor.fetchall()
+    query = "SELECT empNm, partyNm " \
+            "FROM assemblyman " \
+            "WHERE assemblymanCd in " \
+            "(SELECT assemblymanCd " \
+            "FROM assemblyman_has_proposal " \
+            "WHERE proposalCd = '" + search_one[0] + "')"
+    cursor.execute(query)
+    result_memberNm = cursor.fetchall()
+    print("\n*--------------------------------------------------------------*")
+    print("%16s 발의자수 : %s명, 대표 발의자 : %s" % (search_one[1], str(len(result_memberNm)), result_chairmanNm.pop()[0]))
+    print("*-------" + search_one[1] + " 발의 국회의원 목록----------*")
+    for memberNm in result_memberNm:
+        print("%15s%15s" % (memberNm[0], memberNm[1]))
 
 
 # 6. 지역 검색
