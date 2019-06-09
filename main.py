@@ -6,6 +6,7 @@ import setprovince
 import setDB
 import setcomittee
 import setproposal
+import setevaluation
 from setdatabase import database_setting
 
 set_DB_using_openAPI = '1'
@@ -14,6 +15,7 @@ search_party = '3'
 search_committee = '4'
 search_proposal = '5'
 search_province = '6'
+evaluate = '7'
 
 
 def print_menu():
@@ -26,6 +28,7 @@ def print_menu():
     print("| 4. 위원회 검색                                               |")
     print("| 5. 발의안 검색                                               |")
     print("| 6. 지역 검색                                                 |")
+    print("| 7. 국회의원 평가                                             |")
     print("| else. 종료                                                   |")
     print("*--------------------------------------------------------------*")
 
@@ -84,18 +87,22 @@ def DB_setting(cnx, cursor):
     setprovince.provinceset(cnx, cursor)
     print("■■", end="")
     setorig.origset(cnx, cursor)
-    print("■■■", end="")
+    print("■■", end="")
     setDB.assemblymanset(cnx, cursor)
     setcomittee.comitteeset(cnx, cursor)
-    print("■■■", end="")
+    print("■■", end="")
     setcomittee.assemblyman_has_comitteeset(cnx, cursor)
-    print("■■■", end="")
+    print("■■", end="")
     setproposal.proposalset(cnx, cursor)
-    print("■■■", end="")
+    print("■■", end="")
     setproposal.assemblyman_has_proposal(cnx, cursor)
-    print("■■■", end="")
+    print("■■", end="")
     createView(cnx, cursor)
-    print("■■■")
+    print("■■", end="")
+    setevaluation.initrep(cnx, cursor)
+    print("■■", end="")
+    setevaluation.setreptrigger(cnx, cursor)
+    print("■■")
 
 
 # 2. 국회의원 이름 검색
@@ -136,9 +143,24 @@ def assemblyman_searching():
                 for comitteeNm in result_comitteeNm:
                     view_comitteeNm += comitteeNm + ", "
             if len(result_comitteeCd) == 0:
-                print("X")
+                print("X", end="")
             else:
-                print(view_comitteeNm)
+                print(view_comitteeNm, end="")
+        print()
+        query = "SELECT reputation " \
+                "FROM assemblyman " \
+                "WHERE assemblyman.assemblymanCd = '" + tup[0] + "'"
+        cursor.execute(query)
+        result_reputation = cursor.fetchall()
+        print("*평판점수 : " + str(result_reputation.pop()[0]))
+
+        query = "SELECT content " \
+                "FROM evaluation " \
+                "WHERE evaluation.assemblymanCd = '" + tup[0] + "'"
+        cursor.execute(query)
+        result_content = cursor.fetchall()
+        if len(result_content) != 0:
+            print("*코멘트   : " + result_content[0][0])
         print()
 
 
@@ -299,6 +321,12 @@ def province_searching():
     print()
 
 
+# 7. 국회의원 평가
+def evaluate_assemblyman():
+    setevaluation.evaluation(cnx, cursor)
+    pass
+
+
 if __name__ == '__main__':
     cnx, cursor = database_setting()
     while True:
@@ -316,6 +344,8 @@ if __name__ == '__main__':
             proposal_searching()
         elif menuNum == search_province:
             province_searching()
+        elif menuNum == evaluate:
+            evaluate_assemblyman()
         else:
             print("*프로그램 종료")
             cursor.close()
