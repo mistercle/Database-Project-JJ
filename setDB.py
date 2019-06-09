@@ -1,5 +1,6 @@
 import mysql.connector
 import test
+from setdatabase import database_setting
 """
 오픈 API에서 데이터를 받아와서 DB를 업데이트하는 파일
 """
@@ -20,11 +21,8 @@ getlocal = 'getLocalSearch' #지역검색 method_num = 7
 
 
 
-def assemblymanset():
-    cnx = mysql.connector.connect(user='root', password='flalxlem116',
-                                  host='127.0.0.1',
-                                  database='dbtest')
-    cursor = cnx.cursor()
+def assemblymanset(cnx, cursor):
+    cnx, cursor = database_setting()
 
     table = "assemblyman"
     table_column = "(assemblymanCd, empNm, partyNm, reeleGbnNm, origCd, hobbyNm) "
@@ -41,10 +39,10 @@ def assemblymanset():
     #cursor.execute("select * from assemblyman")
     #output = cursor.fetchall()
     #print(output)
-    for item in items0 :
+    for i, item in enumerate(items0):
         data_assemblymanCd = item['num']
         data_empNm = item['empNm']
-        data_partyNm = test.getpartyCd(data_assemblymanCd, item['deptCd'])
+        data_partyNm, data_hobbyNm = test.getpartyCd(data_assemblymanCd, item['deptCd'])
         data_reeleGbNm = item['reeleGbnNm']
         data_origNm = item['origNm']
         #print(data_origNm)
@@ -53,17 +51,16 @@ def assemblymanset():
         #print(origCd)
         data_origCd = origCd[0][0]
         #print(data_origCd)
-        data_hobbyNm = test.gethobbyCd(data_assemblymanCd, item['deptCd'])
-        print(data_empNm + " " + data_hobbyNm)
+        # data_hobbyNm = test.gethobbyCd(data_assemblymanCd, item['deptCd'])
+        # print(data_empNm + " " + data_hobbyNm)
         cursor.execute(query, (data_assemblymanCd, data_empNm, data_partyNm, data_reeleGbNm, data_origCd, data_hobbyNm))
         #cursor.execute("update assemblyman set hobbyNm = %s where assemblymanCd = %s;", (data_assemblymanCd, data_hobbyNm))
 
         cnx.commit()
+        if i % 30 == 0:
+            print("■", end="")
 
 
-
-    cursor.close()
-    cnx.close()
-
-assemblymanset()
-
+if __name__ == "__main__":
+    cnx, cursor = database_setting()
+    assemblymanset(cnx, cursor)

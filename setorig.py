@@ -4,16 +4,12 @@ import json
 import urllib.request
 import urllib.parse
 import xmltodict
+from setdatabase import database_setting
 """
 오픈 API에서 데이터를 받아와서 정당 테이블을 업데이트
 """
 
-
-
-
-
-
-def origset():
+def origset(cnx, cursor):
     getlist = 'getMemberCurrStateList'  # 국회의원 현황조회 method_num = 0
     getdetail = 'getMemberDetailInfoList'  # 국회의원 상세조회 method_num = 1
     getjungdang = 'getJungDangMemberCurrStateList'  # 소속정당별 국회의원 목록조회 method_num = 2
@@ -27,10 +23,7 @@ def origset():
     servicekey = 'oXFNR8BgFm4XU8GWU9ipGvj20Y9fBuvytfINkjq6fASRin0xIYGyO3lUUYQiTMb4%2Fjuno0wZg7azEaby0ZnLag%3D%3D'
     url = 'http://apis.data.go.kr/9710000/NationalAssemblyInfoService/'
 
-    cnx = mysql.connector.connect(user='root', password='flalxlem116',
-                                  host='127.0.0.1',
-                                  database='dbtest')
-    cursor = cnx.cursor()
+    cnx, cursor = database_setting()
 
     select_query = "select provinceCd from province;"
     cursor.execute(select_query)
@@ -77,5 +70,10 @@ def origset():
 
     #cursor.execute("INSERT INTO runningarea (runningAreaCd, RunningAreaNm, provinceCd) values( %s, %s, %s) ON DUPLICATE KEY UPDATE runningAreaCd = runningAreaCd;", ("333333", "비례대표", "비례대표"))
     #cnx.commit()
+
+
+if __name__ == "__main__":
+    cnx, cursor = database_setting()
+    origset(cnx, cursor)
 
 
