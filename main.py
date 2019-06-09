@@ -4,6 +4,7 @@ import test
 import setorig
 import setprovince
 import setDB
+import setcomittee
 from setdatabase import database_setting
 
 set_DB_using_openAPI = '1'
@@ -88,10 +89,14 @@ def DB_setting(cnx, cursor):
     setprovince.provinceset(cnx, cursor)
     print("■■■", end="")
     setorig.origset(cnx, cursor)
-    print("■■■■■", end="")
+    print("■■■", end="")
     setDB.assemblymanset(cnx, cursor)
+    setcomittee.comitteeset(cnx, cursor)
+    print("■■■", end="")
+    setcomittee.assemblyman_has_comitteeset(cnx, cursor)
+    print("■■■", end="")
     createView(cnx, cursor)
-    print("■■■■")
+    print("■■■")
 
 
 # 2. 국회의원 이름 검색
@@ -133,20 +138,20 @@ def assemblyman_searching():
                 "WHERE assemblyman.empNm = '" + search_man_name + "'"
         cursor.execute(query)
         result_comitteeCd = cursor.fetchall()
-        view_comitteeNm = ""
-        if not len(result_comitteeCd) == 0:
-            for comitteeCd in result_comitteeCd[0]:
+        if len(result_comitteeCd) == 0:
+            continue
+        else:
+            result_comitteeCd = result_comitteeCd
+            print("*위원회   : ", end="")
+            for comitteeCd in result_comitteeCd:
                 query = "SELECT comitteeNm " \
                         "FROM comittee " \
-                        "WHERE comittee.comitteeCd = '" + comitteeCd + "'"
+                        "WHERE comittee.comitteeCd = '" + comitteeCd[0] + "'"
                 cursor.execute(query)
-                result_comitteeNm = cursor.fetchall()[0]
-                print("*위원회   : ", end="")
-                temp_comitteeNm = ""
+                result_comitteeNm = cursor.fetchall()
                 for comitteeNm in result_comitteeNm:
-                    temp_comitteeNm += comitteeNm + ", "
-                view_comitteeNm = temp_comitteeNm
-                print()
+                    print(comitteeNm[0], end=", ")
+            print()
         # print(view_empNm, view_partyNm, view_reeleGbnNm, view_origNm, view_comitteeNm)
     # 기존에 존재하는 뷰 assemblyman_view 가 존재하면 삭제
     # assemblyman_view (국회의원 view_empNm, 소속정당 view_partyNm, 당선횟수 view_reeleGbnNm, 선거구 view_origNm, 취미 view_hobbyNm, 위원회 view_comitteeNm)로 구성된 뷰 만들기
@@ -232,7 +237,7 @@ def committee_searching():
             "WHERE assemblyman.assemblymanCd = '" + result_comittee[1] + "'"
     cursor.execute(query)
     result_chairmanNm = cursor.fetchall()[0][0]
-    query = "SELECT empNm " \
+    query = "SELECT empNm, partyNm " \
             "FROM assemblyman " \
             "WHERE assemblymanCd in " \
             "(SELECT assemblymanCd " \
@@ -244,7 +249,7 @@ def committee_searching():
     print("%16s 인원수 : %s명, 의원회장 : %s" % (search_comittee_name, str(len(result_memberNm)), result_chairmanNm))
     print("*----------------" + search_comittee_name + "에 소속한 국회의원------------------*")
     for memberNm in result_memberNm:
-        print(memberNm)
+        print("%15s%15s" % (memberNm[0], memberNm[1]))
 
 
 # 5. 발의안 검색
