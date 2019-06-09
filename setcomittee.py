@@ -150,7 +150,6 @@ def assemblyman_has_comitteeset(cnx, cursor):
     insert_query = insert_tuple + "(%s, %s) ON DUPLICATE KEY UPDATE assemblymanCd = assemblymanCd, comitteeCd = comitteeCd;"
 
     for i, value in enumerate(array):
-        print((value[1], value[0]))
         cursor.execute(insert_query, (value[1], value[0]))
         cnx.commit()
 
