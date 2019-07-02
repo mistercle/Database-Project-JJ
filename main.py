@@ -100,9 +100,9 @@ def DB_setting(cnx, cursor):
     createView(cnx, cursor)
     print("■■", end="")
     setevaluation.initrep(cnx, cursor)
-    print("■■", end="")
+    print("■■■", end="")
     setevaluation.setreptrigger(cnx, cursor)
-    print("■■")
+    print("■■■")
 
 
 # 2. 국회의원 이름 검색
